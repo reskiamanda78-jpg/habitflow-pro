@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HabitFlow Pro</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#8b5cf6">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="HabitFlow">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
+  <!-- Icons & Font -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+
+  <style>
+    :root {
+      --brand-50: #f5f3ff;
+      --brand-100: #ede9fe;
+      --brand-200: #ddd6fe;
+      --brand-500: #8b5cf6;
+      --brand-600: #7c3aed;
+      --brand-700: #6d28d9;
+      --brand-800: #5b21b6;
+
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-400: #94a3b8;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --slate-900: #0f172a;
+
+      --emerald-50: #ecfdf5;
+      --emerald-500: #10b981;
+      --emerald-600: #059669;
+      --rose-50: #fff1f2;
+      --rose-400: #fb7185;
+      --rose-600: #e11d48;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Inter", sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: var(--slate-50);
+      color: var(--slate-900);
+      min-height: 100vh;
+    }
+
+    button, input {
+      font: inherit;
+    }
+
+    button {
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .max-w-4xl { max-width: 56rem; margin-left: auto; margin-right: auto; width: 100%; }
+    .max-w-sm { max-width: 24rem; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+    .flex { display: flex; }
+    .flex-col { flex-direction: column; }
+    .flex-wrap { flex-wrap: wrap; }
+    .items-center { align-items: center; }
+    .items-start { align-items: flex-start; }
+    .justify-between { justify-content: space-between; }
+    .justify-center { justify-content: center; }
+    .justify-end { justify-content: flex-end; }
+    .space-x-1 > * + * { margin-left: .25rem; }
+    .space-x-1\.5 > * + * { margin-left: .375rem; }
+    .space-x-2 > * + * { margin-left: .5rem; }
+    .space-x-2\.5 > * + * { margin-left: .625rem; }
+    .space-x-3\.5 > * + * { margin-left: .875rem; }
+    .space-x-4 > * + * { margin-left: 1rem; }
+    .space-y-2 > * + * { margin-top: .5rem; }
+    .space-y-3 > * + * { margin-top: .75rem; }
+    .space-y-4 > * + * { margin-top: 1rem; }
+    .space-y-5 > * + * { margin-top: 1.25rem; }
+    .space-y-6 > * + * { margin-top: 1.5rem; }
+
+    .grid { display: grid; }
+    .grid-cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .grid-cols-7 { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+    .gap-1 { gap: .25rem; }
+    .gap-2 { gap: .5rem; }
+    .gap-4 { gap: 1rem; }
+
+    .hidden { display: none !important; }
+    .block { display: block; }
+    .relative { position: relative; }
+    .absolute { position: absolute; }
+    .fixed { position: fixed; }
+    .sticky { position: sticky; }
+    .top-0 { top: 0; }
+    .z-20 { z-index: 20; }
+    .z-30 { z-index: 30; }
+    .z-50 { z-index: 50; }
+    .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+    .w-full { width: 100%; }
+    .h-full { height: 100%; }
+    .grow { flex-grow: 1; }
+    .shrink-0 { flex-shrink: 0; }
+    .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .overflow-hidden { overflow: hidden; }
+    .text-center { text-align: center; }
+    .text-left { text-align: left; }
+    .select-none { user-select: none; }
+
+    .text-\[10px\] { font-size: .625rem; line-height: .75rem; }
+    .text-\[11px\] { font-size: .6875rem; line-height: 1rem; }
+    .text-xs { font-size: .75rem; line-height: 1rem; }
+    .text-sm { font-size: .875rem; line-height: 1.25rem; }
+    .text-base { font-size: 1rem; line-height: 1.5rem; }
+    .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+    .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+    .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+
+    .font-light { font-weight: 300; }
+    .font-normal { font-weight: 400; }
+    .font-medium { font-weight: 500; }
+    .font-semibold { font-weight: 600; }
+    .font-bold { font-weight: 700; }
+    .font-extrabold { font-weight: 800; }
+    .tracking-tight { letter-spacing: -.025em; }
+    .tracking-wider { letter-spacing: .05em; }
+    .uppercase { text-transform: uppercase; }
+    .line-through { text-decoration: line-through; }
+
+    .bg-white { background: #fff; }
+    .bg-slate-50 { background: var(--slate-50); }
+    .bg-slate-100 { background: var(--slate-100); }
+    .bg-slate-900 { background: var(--slate-900); }
+    .bg-violet-50 { background: var(--brand-50); }
+    .bg-violet-100 { background: var(--brand-100); }
+    .bg-violet-600 { background: var(--brand-500); }
+    .bg-emerald-500 { background: var(--emerald-500); }
+    .bg-emerald-50 { background: var(--emerald-50); }
+    .bg-rose-50 { background: var(--rose-50); }
+
+    .text-slate-400 { color: var(--slate-400); }
+    .text-slate-500 { color: var(--slate-500); }
+    .text-slate-600 { color: var(--slate-600); }
+    .text-slate-700 { color: var(--slate-700); }
+    .text-slate-800 { color: var(--slate-800); }
+    .text-slate-900 { color: var(--slate-900); }
+    .text-white { color: #fff; }
+    .text-violet-200 { color: var(--brand-200); }
+    .text-violet-600 { color: var(--brand-500); }
+    .text-violet-800 { color: var(--brand-800); }
+    .text-emerald-400 { color: #34d399; }
+    .text-emerald-600 { color: var(--emerald-600); }
+    .text-rose-400 { color: var(--rose-400); }
+    .text-rose-600 { color: var(--rose-600); }
+
+    .border { border: 1px solid var(--slate-200); }
+    .border-b { border-bottom: 1px solid var(--slate-200); }
+    .border-t { border-top: 1px solid var(--slate-200); }
+    .border-slate-100 { border-color: var(--slate-100); }
+    .border-slate-200 { border-color: var(--slate-200); }
+    .border-slate-300 { border-color: var(--slate-300); }
+    .border-violet-200 { border-color: var(--brand-200); }
+    .border-emerald-100 { border-color: #d1fae5; }
+    .border-emerald-500 { border-color: var(--emerald-500); }
+
+    .rounded-lg { border-radius: .5rem; }
+    .rounded-xl { border-radius: .75rem; }
+    .rounded-2xl { border-radius: 1rem; }
+    .rounded-3xl { border-radius: 1.5rem; }
+    .rounded-full { border-radius: 9999px; }
+
+    .p-1 { padding: .25rem; }
+    .p-4 { padding: 1rem; }
+    .p-5 { padding: 1.25rem; }
+    .p-6 { padding: 1.5rem; }
+    .p-8 { padding: 2rem; }
+    .px-3 { padding-left: .75rem; padding-right: .75rem; }
+    .px-3\.5 { padding-left: .875rem; padding-right: .875rem; }
+    .px-4 { padding-left: 1rem; padding-right: 1rem; }
+    .px-5 { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .py-1\.5 { padding-top: .375rem; padding-bottom: .375rem; }
+    .py-2 { padding-top: .5rem; padding-bottom: .5rem; }
+    .py-2\.5 { padding-top: .625rem; padding-bottom: .625rem; }
+    .py-3 { padding-top: .75rem; padding-bottom: .75rem; }
+    .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+    .pb-2 { padding-bottom: .5rem; }
+    .pt-1 { padding-top: .25rem; }
+    .pt-3 { padding-top: .75rem; }
+    .mb-1 { margin-bottom: .25rem; }
+    .mb-5 { margin-bottom: 1.25rem; }
+    .mt-0\.5 { margin-top: .125rem; }
+
+    .shadow-xs { box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+    .shadow-sm { box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+    .shadow-md { box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -1px rgba(0,0,0,.06); }
+    .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0,0,0,.1), 0 10px 10px -5px rgba(0,0,0,.04); }
+    .shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0,0,0,.25); }
+
+    .transition { transition: all .2s ease-in-out; }
+    .transition-all { transition: all .3s ease; }
+    .duration-700 { transition-duration: 700ms; }
+
+    .backdrop-blur-md {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .bg-white-80 { background: rgba(255,255,255,.88); }
+    .bg-slate-950-40 { background: rgba(15,23,42,.4); }
+
+    .gradient-header {
+      background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #7c3aed 100%);
+    }
+    .gradient-icon {
+      background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
+    }
+    .gradient-progress {
+      background: linear-gradient(90deg, #34d399 0%, #2dd4bf 100%);
+    }
+
+    .group { position: relative; }
+    .group:hover .group-hover-block { display: block !important; }
+
+    .hover\:bg-slate-100:hover { background: var(--slate-100); }
+    .hover\:bg-violet-700:hover { background: var(--brand-700); }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .65; }
+    }
+    .animate-pulse { animation: pulse 2s cubic-bezier(.4,0,.6,1) infinite; }
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--slate-200); border-radius: 9999px; }
+
+    @media (max-width: 640px) {
+      .sm\:flex-row { flex-direction: row; }
+      .sm\:items-center { align-items: center; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="w-full bg-white-80 backdrop-blur-md border-b border-slate-100 sticky top-0 z-30 shadow-xs">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-2.5">
+        <div class="w-10 h-10 rounded-2xl gradient-header text-white flex items-center justify-center font-bold text-base shadow-md" style="width:2.5rem;height:2.5rem;">
+          <i class="fa-solid fa-sparkles"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-sm text-slate-800 tracking-tight">HabitFlow Pro</h1>
+          <p class="text-[11px] text-slate-400 font-medium" id="header-date">Memuat tanggal...</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-1.5">
+        <button id="install-btn" onclick="installPWA()" class="hidden px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-500 text-white shadow-sm flex items-center space-x-1 animate-pulse">
+          <i class="fa-solid fa-download text-[10px]"></i>
+          <span>Install</span>
+        </button>
+
+        <div class="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
+          <button onclick="switchTab('tracker')" id="nav-tracker" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-800 shadow-xs transition-all">Hari Ini</button>
+          <button onclick="switchTab('weekly')" id="nav-weekly" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 transition-all">Mingguan</button>
+          <button onclick="switchTab('history')" id="nav-history" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 transition-all">Kalender</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-4xl w-full mx-auto px-4 py-6 grow space-y-6">
+    <div id="tab-tracker" class="space-y-6">
+      <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-xs flex items-center justify-between">
+        <button onclick="changeDate(-1)" class="w-9 h-9 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-600 flex items-center justify-center transition border border-slate-200" style="width:2.25rem;height:2.25rem;">
+          <i class="fa-solid fa-chevron-left text-xs"></i>
+        </button>
+        <div class="text-center">
+          <h2 id="current-day-title" class="font-bold text-sm text-slate-800">Hari Ini</h2>
+          <p id="current-date-subtitle" class="text-xs text-slate-400"></p>
+        </div>
+        <button onclick="changeDate(1)" class="w-9 h-9 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-600 flex items-center justify-center transition border border-slate-200" style="width:2.25rem;height:2.25rem;">
+          <i class="fa-solid fa-chevron-right text-xs"></i>
+        </button>
+      </div>
+
+      <div class="gradient-header rounded-3xl p-6 text-white shadow-xl relative overflow-hidden">
+        <div style="position:absolute;right:-2.5rem;bottom:-2.5rem;width:11rem;height:11rem;background:rgba(255,255,255,.1);border-radius:9999px;filter:blur(20px);pointer-events:none;"></div>
+
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-5">
+          <div>
+            <span class="text-[11px] uppercase tracking-wider font-semibold text-violet-200">Progres Harian</span>
+            <h3 id="progress-text" class="text-3xl font-extrabold mt-0.5 tracking-tight">0/0 selesai — 0%</h3>
+          </div>
+          <div class="flex items-center space-x-2">
+            <div class="px-3.5 py-2 rounded-2xl text-center" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);">
+              <span class="block text-[10px] uppercase tracking-wider font-medium text-violet-200">Streak</span>
+              <span id="streak-count" class="font-bold text-sm">🔥 0 Hari</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full rounded-full overflow-hidden" style="background:rgba(0,0,0,.2);height:12px;padding:2px;">
+          <div id="progress-bar-fill" class="gradient-progress rounded-full transition-all duration-700 shadow-sm" style="width:0%;height:100%;"></div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between pt-1">
+        <div>
+          <h3 class="font-bold text-sm text-slate-800 tracking-tight">Daftar Kebiasaan</h3>
+          <p class="text-xs text-slate-400">Klik lingkaran untuk menyelesaikan misi hari ini</p>
+        </div>
+        <button onclick="openAddHabitModal()" class="text-xs bg-violet-600 hover:bg-violet-700 text-white font-semibold px-3.5 py-2 rounded-xl transition shadow-sm flex items-center space-x-1.5">
+          <i class="fa-solid fa-plus text-xs"></i>
+          <span>Kebiasaan Baru</span>
+        </button>
+      </div>
+
+      <div id="habits-container" class="space-y-3"></div>
+    </div>
+
+    <div id="tab-weekly" class="hidden space-y-6">
+      <div class="bg-white p-5 rounded-3xl border border-slate-100 shadow-xs space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="font-bold text-base text-slate-800">Tinjauan Mingguan</h3>
+            <p class="text-xs text-slate-400" id="weekly-range-subtitle">Minggu ini</p>
+          </div>
+          <div class="flex items-center space-x-1.5">
+            <button onclick="changeWeek(-1)" class="w-8 h-8 rounded-xl bg-slate-50 text-slate-600 flex items-center justify-center border border-slate-200" style="width:2rem;height:2rem;"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+            <button onclick="changeWeek(1)" class="w-8 h-8 rounded-xl bg-slate-50 text-slate-600 flex items-center justify-center border border-slate-200" style="width:2rem;height:2rem;"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+          </div>
+        </div>
+        <div style="overflow-x:auto;padding-bottom:.5rem;">
+          <div id="weekly-matrix" class="space-y-2" style="min-width:650px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-history" class="hidden space-y-6">
+      <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-xs space-y-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="font-bold text-base text-slate-800">Kalender Aktivitas Bulanan</h3>
+            <p class="text-xs text-slate-400">Pantau konsistensi habit Anda sepanjang bulan</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="changeMonth(-1)" class="w-8 h-8 rounded-xl bg-slate-50 text-slate-600 flex items-center justify-center border border-slate-200" style="width:2rem;height:2rem;"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+            <span id="calendar-month-year" class="text-xs font-bold text-slate-700" style="min-width:110px;text-align:center;"></span>
+            <button onclick="changeMonth(1)" class="w-8 h-8 rounded-xl bg-slate-50 text-slate-600 flex items-center justify-center border border-slate-200" style="width:2rem;height:2rem;"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-7 gap-2 text-center text-xs text-slate-400 font-semibold mb-1">
+          <span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span><span>Min</span>
+        </div>
+        <div id="calendar-grid" class="grid grid-cols-7 gap-2 text-xs"></div>
+
+        <div class="flex items-center justify-center space-x-4 pt-3 border-t border-slate-100 text-[11px] text-slate-500">
+          <div class="flex items-center space-x-1.5"><div style="width:.75rem;height:.75rem;border-radius:.25rem;background:var(--emerald-500);"></div><span>Selesai Penuh</span></div>
+          <div class="flex items-center space-x-1.5"><div style="width:.75rem;height:.75rem;border-radius:.25rem;background:var(--brand-100);border:1px solid var(--brand-500);"></div><span>Sebagian</span></div>
+          <div class="flex items-center space-x-1.5"><div style="width:.75rem;height:.75rem;border-radius:.25rem;background:var(--slate-50);border:1px solid var(--slate-200);"></div><span>Kosong</span></div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
+        <div class="bg-white p-5 rounded-3xl border border-slate-100 shadow-xs flex items-center space-x-4">
+          <div style="width:3rem;height:3rem;border-radius:1rem;background:var(--brand-50);color:var(--brand-600);display:flex;align-items:center;justify-content:center;font-size:1.125rem;font-weight:bold;"><i class="fa-solid fa-circle-check"></i></div>
+          <div><span class="block text-slate-400 text-xs font-medium">Total Selesai Akumulatif</span><span id="stat-total-completed" class="text-2xl font-extrabold text-slate-800">0</span></div>
+        </div>
+        <div class="bg-white p-5 rounded-3xl border border-slate-100 shadow-xs flex items-center space-x-4">
+          <div style="width:3rem;height:3rem;border-radius:1rem;background:var(--emerald-50);color:var(--emerald-500);display:flex;align-items:center;justify-content:center;font-size:1.125rem;font-weight:bold;"><i class="fa-solid fa-fire"></i></div>
+          <div><span class="block text-slate-400 text-xs font-medium">Streak Hari Ini</span><span id="stat-current-streak" class="text-2xl font-extrabold text-slate-800">0 Hari</span></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Habit Modal -->
+  <div id="habit-modal" class="fixed inset-0 bg-slate-950-40 backdrop-blur-md z-50 items-center justify-center p-4 hidden">
+    <div class="bg-white w-full max-w-sm rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
+      <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+        <h3 id="modal-title" class="font-bold text-sm text-slate-800">Tambah Kebiasaan Baru</h3>
+        <button onclick="closeHabitModal()" style="width:2rem;height:2rem;border-radius:.75rem;background:var(--slate-50);border:none;color:var(--slate-400);cursor:pointer;"><i class="fa-solid fa-xmark text-xs"></i></button>
+      </div>
+
+      <div class="p-5 space-y-4">
+        <input type="hidden" id="edit-habit-id">
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Kebiasaan</label>
+          <input type="text" id="habit-name-input" placeholder="Contoh: Meditasi 10 menit" style="width:100%;padding:.75rem 1rem;border-radius:1rem;border:1px solid var(--slate-200);font-size:.875rem;background:var(--slate-50);outline:none;">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">Pilih Ikon</label>
+          <div class="grid grid-cols-6 gap-2" id="icon-picker" style="max-height:10rem;overflow-y:auto;padding:.25rem;"></div>
+          <input type="hidden" id="selected-icon" value="fa-circle-check">
+        </div>
+      </div>
+
+      <div class="p-4 bg-slate-50 border-t border-slate-100 flex justify-end space-x-2">
+        <button onclick="closeHabitModal()" style="padding:.625rem 1rem;border-radius:.75rem;font-size:.75rem;font-weight:600;color:var(--slate-600);background:transparent;border:none;cursor:pointer;">Batal</button>
+        <button onclick="saveHabit()" style="padding:.625rem 1.25rem;border-radius:.75rem;font-size:.75rem;font-weight:600;background:var(--brand-500);color:#fff;border:none;cursor:pointer;">Simpan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast-notification" style="position:fixed;bottom:1.25rem;right:1.25rem;background:var(--slate-900);color:#fff;font-size:.75rem;padding:.75rem 1rem;border-radius:1rem;box-shadow:0 10px 15px -3px rgba(0,0,0,.3);transform:translateY(5rem);opacity:0;transition:all .3s ease;z-index:50;display:flex;align-items:center;gap:.5rem;">
+    <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
+    <span id="toast-message">Pesan notifikasi</span>
+  </div>
+
+  <script>
+    // Register Service Worker
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js")
+          .then(reg => console.log("ServiceWorker registered:", reg.scope))
+          .catch(err => console.log("ServiceWorker registration failed:", err));
+      });
+    }
+
+    let deferredPrompt = null;
+
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const installBtn = document.getElementById("install-btn");
+      if (installBtn) {
+        installBtn.classList.remove("hidden");
+        installBtn.style.display = "flex";
+      }
+    });
+
+    async function installPWA() {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const choiceResult = await deferredPrompt.userChoice;
+      console.log("Install result:", choiceResult.outcome);
+      deferredPrompt = null;
+
+      const installBtn = document.getElementById("install-btn");
+      if (installBtn) {
+        installBtn.classList.add("hidden");
+        installBtn.style.display = "none";
+      }
+    }
+
+    const defaultHabits = [
+      { id: "1", name: "Bangun pagi", icon: "fa-sun" },
+      { id: "2", name: "Minum air putih", icon: "fa-glass-water" },
+      { id: "3", name: "Belajar hal unik", icon: "fa-lightbulb" },
+      { id: "4", name: "Membaca", icon: "fa-book-open" },
+      { id: "5", name: "Olahraga/jalan kaki", icon: "fa-person-running" },
+      { id: "6", name: "Belajar coding", icon: "fa-code" },
+      { id: "7", name: "Mengurangi screen time", icon: "fa-mobile-screen-button" },
+      { id: "8", name: "Tidur tepat waktu", icon: "fa-bed" },
+      { id: "9", name: "Evaluasi mata kuliah", icon: "fa-graduation-cap" }
+    ];
+
+    const availableIcons = [
+      "fa-circle-check", "fa-sun", "fa-glass-water", "fa-lightbulb",
+      "fa-book-open", "fa-person-running", "fa-code", "fa-mobile-screen-button",
+      "fa-bed", "fa-graduation-cap", "fa-heart", "fa-dumbbell",
+      "fa-brain", "fa-laptop", "fa-mug-hot", "fa-pen-nib", "fa-fire", "fa-star"
+    ];
+
+    let habits = [];
+    let habitLogs = {};
+    let currentDate = new Date();
+    let currentMonth = currentDate.getMonth();
+    let currentYear = currentDate.getFullYear();
+    let currentWeekOffset = 0;
+
+    window.addEventListener("load", () => {
+      loadData();
+      renderHeaderDate();
+      renderHabits();
+      renderCalendar();
+      renderWeeklyMatrix();
+      renderStats();
+      setupIconPicker();
+    });
+
+    function loadData() {
+      try {
+        const savedHabits = localStorage.getItem("habit_tracker_habits_pro");
+        const savedLogs = localStorage.getItem("habit_tracker_logs_pro");
+
+        habits = savedHabits ? JSON.parse(savedHabits) : [...defaultHabits];
+        habitLogs = savedLogs ? JSON.parse(savedLogs) : {};
+
+        if (!Array.isArray(habits)) habits = [...defaultHabits];
+        if (!habitLogs || typeof habitLogs !== "object") habitLogs = {};
+      } catch (error) {
+        console.error("Gagal memuat data:", error);
+        habits = [...defaultHabits];
+        habitLogs = {};
+      }
+    }
+
+    function saveData() {
+      localStorage.setItem("habit_tracker_habits_pro", JSON.stringify(habits));
+      localStorage.setItem("habit_tracker_logs_pro", JSON.stringify(habitLogs));
+    }
+
+    function formatDateKey(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function renderHeaderDate() {
+      const todayKey = formatDateKey(new Date());
+      const selectedKey = formatDateKey(currentDate);
+
+      document.getElementById("header-date").innerText =
+        currentDate.toLocaleDateString("id-ID", {
+          weekday: "long",
+          day: "numeric",
+          month: "short",
+          year: "numeric"
+        });
+
+      document.getElementById("current-day-title").innerText =
+        selectedKey === todayKey
+          ? "Hari Ini"
+          : (currentDate > new Date() ? "Mendatang" : "Hari Lalu");
+
+      document.getElementById("current-date-subtitle").innerText =
+        currentDate.toLocaleDateString("id-ID", {
+          weekday: "long",
+          day: "numeric",
+          month: "long",
+          year: "numeric"
+        });
+    }
+
+    function changeDate(days) {
+      currentDate.setDate(currentDate.getDate() + days);
+      renderHeaderDate();
+      renderHabits();
+    }
+
+    function renderHabits() {
+      const container = document.getElementById("habits-container");
+      container.innerHTML = "";
+
+      const dateKey = formatDateKey(currentDate);
+      if (!habitLogs[dateKey]) habitLogs[dateKey] = {};
+
+      let completedCount = 0;
+      const totalHabits = habits.length;
+
+      if (totalHabits === 0) {
+        container.innerHTML = `
+          <div style="background:#fff;padding:2rem;border-radius:1.5rem;border:1px solid var(--slate-200);text-align:center;color:var(--slate-400);">
+            <i class="fa-solid fa-folder-open" style="font-size:1.5rem;margin-bottom:.5rem;color:var(--slate-300);"></i>
+            <p style="font-size:.75rem;">Belum ada kebiasaan. Silakan tambah kebiasaan baru!</p>
+          </div>`;
+        updateProgress(0, 0);
+        calculateStreak();
+        renderStats();
+        return;
+      }
+
+      habits.forEach(habit => {
+        const isCompleted = !!habitLogs[dateKey][habit.id];
+        if (isCompleted) completedCount++;
+
+        const item = document.createElement("div");
+        item.style.cssText = `
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          padding:1rem;
+          border-radius:1rem;
+          border:1px solid ${isCompleted ? "#d1fae5" : "var(--slate-200)"};
+          background:${isCompleted ? "#ecfdf5" : "#fff"};
+          transition:all .2s ease;
+          box-shadow:0 1px 2px rgba(0,0,0,.05);
+        `;
+
+        item.innerHTML = `
+          <div style="display:flex;align-items:center;gap:.875rem;cursor:pointer;flex-grow:1;" onclick="toggleHabit('${habit.id}')">
+            <div style="width:2.5rem;height:2.5rem;border-radius:1rem;display:flex;align-items:center;justify-content:center;background:${isCompleted ? "#10b981" : "var(--slate-100)"};color:${isCompleted ? "#fff" : "var(--slate-600)"};">
+              <i class="fa-solid ${habit.icon || "fa-circle-check"}" style="font-size:.75rem;"></i>
+            </div>
+            <span style="font-size:.75rem;font-weight:600;user-select:none;text-decoration:${isCompleted ? "line-through" : "none"};color:${isCompleted ? "var(--slate-400)" : "var(--slate-800)"};">
+              ${escapeHtml(habit.name)}
+            </span>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:.5rem;">
+            <button onclick="toggleHabit('${habit.id}')" aria-label="Selesaikan kebiasaan"
+              style="width:1.75rem;height:1.75rem;border-radius:.75rem;border:1px solid ${isCompleted ? "#10b981" : "var(--slate-300)"};background:${isCompleted ? "#10b981" : "#fff"};color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+              ${isCompleted ? '<i class="fa-solid fa-check" style="font-size:.625rem;"></i>' : ""}
+            </button>
+
+            <div class="group">
+              <button aria-label="Menu kebiasaan"
+                style="width:1.75rem;height:1.75rem;border-radius:.75rem;background:transparent;border:none;color:var(--slate-400);cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                <i class="fa-solid fa-ellipsis-vertical" style="font-size:.75rem;"></i>
+              </button>
+
+              <div class="group-hover-block"
+                style="position:absolute;right:0;margin-top:.25rem;width:7rem;background:#fff;border-radius:1rem;box-shadow:0 10px 15px -3px rgba(0,0,0,.1);border:1px solid var(--slate-200);padding:.375rem 0;display:none;z-index:20;">
+                <button onclick="openEditHabitModal('${habit.id}')"
+                  style="width:100%;text-align:left;padding:.375rem .875rem;font-size:.6875rem;color:var(--slate-600);background:transparent;border:none;cursor:pointer;display:flex;align-items:center;gap:.5rem;">
+                  <i class="fa-solid fa-pen" style="font-size:.625rem;"></i><span>Edit</span>
+                </button>
+                <button onclick="deleteHabit('${habit.id}')"
+                  style="width:100%;text-align:left;padding:.375rem .875rem;font-size:.6875rem;color:#e11d48;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;gap:.5rem;">
+                  <i class="fa-solid fa-trash" style="font-size:.625rem;"></i><span>Hapus</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(item);
+      });
+
+      updateProgress(completedCount, totalHabits);
+      calculateStreak();
+      renderCalendar();
+      renderWeeklyMatrix();
+      renderStats();
+    }
+
+    function toggleHabit(habitId) {
+      const dateKey = formatDateKey(currentDate);
+      if (!habitLogs[dateKey]) habitLogs[dateKey] = {};
+      habitLogs[dateKey][habitId] = !habitLogs[dateKey][habitId];
+      saveData();
+      renderHabits();
+    }
+
+    function updateProgress(completed, total) {
+      const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+      document.getElementById("progress-text").innerText =
+        `${completed}/${total} selesai — ${percent}%`;
+      document.getElementById("progress-bar-fill").style.width = `${percent}%`;
+    }
+
+    function calculateStreak() {
+      let streak = 0;
+      let checkDate = new Date();
+
+      while (true) {
+        const dateKey = formatDateKey(checkDate);
+        const dayLog = habitLogs[dateKey];
+        const totalHabits = habits.length;
+
+        if (totalHabits === 0) break;
+
+        let completedCount = 0;
+        habits.forEach(h => {
+          if (dayLog && dayLog[h.id]) completedCount++;
+        });
+
+        if (completedCount === totalHabits) {
+          streak++;
+          checkDate.setDate(checkDate.getDate() - 1);
+        } else {
+          const todayKey = formatDateKey(new Date());
+          if (dateKey === todayKey) {
+            checkDate.setDate(checkDate.getDate() - 1);
+            continue;
+          }
+          break;
+        }
+      }
+
+      document.getElementById("streak-count").innerText = `🔥 ${streak} Hari`;
+      return streak;
+    }
+
+    function switchTab(tabName) {
+      const trackerTab = document.getElementById("tab-tracker");
+      const weeklyTab = document.getElementById("tab-weekly");
+      const historyTab = document.getElementById("tab-history");
+
+      const navTracker = document.getElementById("nav-tracker");
+      const navWeekly = document.getElementById("nav-weekly");
+      const navHistory = document.getElementById("nav-history");
+
+      trackerTab.classList.add("hidden");
+      weeklyTab.classList.add("hidden");
+      historyTab.classList.add("hidden");
+
+      [navTracker, navWeekly, navHistory].forEach(btn => {
+        btn.style.background = "transparent";
+        btn.style.color = "var(--slate-600)";
+        btn.style.boxShadow = "none";
+      });
+
+      if (tabName === "tracker") {
+        trackerTab.classList.remove("hidden");
+        navTracker.style.background = "#fff";
+        navTracker.style.color = "var(--slate-800)";
+        navTracker.style.boxShadow = "0 1px 2px rgba(0,0,0,.05)";
+      } else if (tabName === "weekly") {
+        weeklyTab.classList.remove("hidden");
+        navWeekly.style.background = "#fff";
+        navWeekly.style.color = "var(--slate-800)";
+        navWeekly.style.boxShadow = "0 1px 2px rgba(0,0,0,.05)";
+        renderWeeklyMatrix();
+      } else {
+        historyTab.classList.remove("hidden");
+        navHistory.style.background = "#fff";
+        navHistory.style.color = "var(--slate-800)";
+        navHistory.style.boxShadow = "0 1px 2px rgba(0,0,0,.05)";
+        renderCalendar();
+        renderStats();
+      }
+    }
+
+    function changeWeek(direction) {
+      currentWeekOffset += direction;
+      renderWeeklyMatrix();
+    }
+
+    function renderWeeklyMatrix() {
+      const container = document.getElementById("weekly-matrix");
+      container.innerHTML = "";
+
+      const d = new Date();
+      d.setDate(d.getDate() + currentWeekOffset * 7);
+
+      const dayOfWeek = d.getDay();
+      const diffToMon = d.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+
+      const monday = new Date(d);
+      monday.setDate(diffToMon);
+
+      const weekDays = [];
+      for (let i = 0; i < 7; i++) {
+        const tempD = new Date(monday);
+        tempD.setDate(monday.getDate() + i);
+        weekDays.push(tempD);
+      }
+
+      const options = { day: "numeric", month: "short" };
+      document.getElementById("weekly-range-subtitle").innerText =
+        `${weekDays[0].toLocaleDateString("id-ID", options)} — ${weekDays[6].toLocaleDateString("id-ID", options)} ${weekDays[6].getFullYear()}`;
+
+      const dayNames = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"];
+
+      let headerHtml = `
+        <div style="display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:.25rem;align-items:center;padding-bottom:.5rem;border-bottom:1px solid var(--slate-200);">
+          <div style="font-size:.6875rem;font-weight:bold;color:var(--slate-400);">Kebiasaan</div>
+      `;
+
+      weekDays.forEach((wDate, idx) => {
+        const isToday = formatDateKey(wDate) === formatDateKey(new Date());
+        headerHtml += `
+          <div style="text-align:center;">
+            <span style="display:block;font-size:.625rem;color:var(--slate-400);text-transform:uppercase;">${dayNames[idx]}</span>
+            <span style="display:inline-block;font-size:.75rem;font-weight:bold;${isToday ? "background:var(--brand-500);color:#fff;width:1.5rem;height:1.5rem;border-radius:9999px;line-height:1.5rem;" : "color:var(--slate-700);"}">${wDate.getDate()}</span>
+          </div>
+        `;
+      });
+
+      headerHtml += "</div>";
+      container.innerHTML = headerHtml;
+
+      if (habits.length === 0) {
+        container.innerHTML += `<div style="text-align:center;padding:1.5rem;font-size:.75rem;color:var(--slate-400);">Belum ada kebiasaan untuk ditampilkan.</div>`;
+        return;
+      }
+
+      habits.forEach(habit => {
+        let rowHtml = `
+          <div style="display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:.25rem;align-items:center;padding:.375rem 0;border-bottom:1px solid #f8fafc;">
+            <div style="display:flex;align-items:center;gap:.5rem;padding-right:.5rem;overflow:hidden;">
+              <div style="width:1.75rem;height:1.75rem;border-radius:.75rem;background:var(--brand-50);color:var(--brand-600);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <i class="fa-solid ${habit.icon || "fa-circle-check"}" style="font-size:.625rem;"></i>
+              </div>
+              <span style="font-size:.75rem;font-weight:500;color:var(--slate-700);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(habit.name)}</span>
+            </div>
+        `;
+
+        weekDays.forEach(wDate => {
+          const dateKey = formatDateKey(wDate);
+          const isChecked = !!(habitLogs[dateKey] && habitLogs[dateKey][habit.id]);
+
+          rowHtml += `
+            <div style="display:flex;justify-content:center;">
+              <button onclick="toggleWeeklyCell('${dateKey}','${habit.id}')"
+                style="width:1.75rem;height:1.75rem;border-radius:.75rem;border:1px solid ${isChecked ? "#10b981" : "var(--slate-200)"};background:${isChecked ? "#10b981" : "#f8fafc"};color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                ${isChecked ? '<i class="fa-solid fa-check" style="font-size:.625rem;"></i>' : ""}
+              </button>
+            </div>
+          `;
+        });
+
+        rowHtml += "</div>";
+        container.innerHTML += rowHtml;
+      });
+    }
+
+    function toggleWeeklyCell(dateKey, habitId) {
+      if (!habitLogs[dateKey]) habitLogs[dateKey] = {};
+      habitLogs[dateKey][habitId] = !habitLogs[dateKey][habitId];
+      saveData();
+      renderWeeklyMatrix();
+      renderHabits();
+    }
+
+    function renderCalendar() {
+      const grid = document.getElementById("calendar-grid");
+      grid.innerHTML = "";
+
+      const monthNames = [
+        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+      ];
+
+      document.getElementById("calendar-month-year").innerText =
+        `${monthNames[currentMonth]} ${currentYear}`;
+
+      const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
+      const startingSpace = firstDayIndex === 0 ? 6 : firstDayIndex - 1;
+      const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+      for (let i = 0; i < startingSpace; i++) {
+        const emptyDiv = document.createElement("div");
+        emptyDiv.style.height = "2.5rem";
+        grid.appendChild(emptyDiv);
+      }
+
+      for (let day = 1; day <= totalDays; day++) {
+        const dateObj = new Date(currentYear, currentMonth, day);
+        const dateKey = formatDateKey(dateObj);
+        const dayLog = habitLogs[dateKey] || {};
+
+        let completedCount = 0;
+        habits.forEach(h => {
+          if (dayLog[h.id]) completedCount++;
+        });
+
+        const totalHabits = habits.length;
+        let bgStyle = "background:var(--slate-50);color:var(--slate-600);border:1px solid rgba(226,232,240,.8);";
+
+        if (totalHabits > 0 && completedCount === totalHabits) {
+          bgStyle = "background:var(--emerald-500);color:#fff;font-weight:bold;box-shadow:0 1px 2px rgba(0,0,0,.05);";
+        } else if (completedCount > 0) {
+          bgStyle = "background:var(--brand-100);color:var(--brand-800);font-weight:500;border:1px solid var(--brand-200);";
+        }
+
+        const dayDiv = document.createElement("div");
+        dayDiv.style.cssText = `height:2.5rem;border-radius:1rem;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:.75rem;transition:all .2s ease;cursor:pointer;${bgStyle}`;
+        dayDiv.innerHTML = `<span>${day}</span>`;
+
+        dayDiv.onclick = () => {
+          currentDate = dateObj;
+          renderHeaderDate();
+          renderHabits();
+          switchTab("tracker");
+        };
+
+        grid.appendChild(dayDiv);
+      }
+    }
+
+    function changeMonth(direction) {
+      currentMonth += direction;
+
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      } else if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+
+      renderCalendar();
+    }
+
+    function renderStats() {
+      let totalCompletedAll = 0;
+
+      Object.keys(habitLogs).forEach(dateKey => {
+        const dayLog = habitLogs[dateKey];
+        habits.forEach(h => {
+          if (dayLog && dayLog[h.id]) totalCompletedAll++;
+        });
+      });
+
+      document.getElementById("stat-total-completed").innerText = totalCompletedAll;
+
+      const currentStreak = calculateStreak();
+      document.getElementById("stat-current-streak").innerText = `${currentStreak} Hari`;
+    }
+
+    function setupIconPicker() {
+      const picker = document.getElementById("icon-picker");
+      picker.innerHTML = "";
+
+      availableIcons.forEach(icon => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "icon-option";
+        btn.style.cssText = "width:2.5rem;height:2.5rem;border-radius:1rem;border:1px solid var(--slate-200);display:flex;align-items:center;justify-content:center;color:var(--slate-600);background:#fff;cursor:pointer;transition:all .2s;";
+
+        btn.innerHTML = `<i class="fa-solid ${icon}" style="font-size:.75rem;"></i>`;
+
+        btn.onclick = () => {
+          document.querySelectorAll(".icon-option").forEach(b => {
+            b.style.borderColor = "var(--slate-200)";
+            b.style.background = "#fff";
+            b.style.color = "var(--slate-600)";
+          });
+
+          btn.style.borderColor = "var(--brand-500)";
+          btn.style.background = "var(--brand-50)";
+          btn.style.color = "var(--brand-600)";
+          document.getElementById("selected-icon").value = icon;
+        };
+
+        picker.appendChild(btn);
+      });
+
+      if (picker.children.length > 0) picker.children[0].click();
+    }
+
+    function openAddHabitModal() {
+      document.getElementById("modal-title").innerText = "Tambah Kebiasaan Baru";
+      document.getElementById("edit-habit-id").value = "";
+      document.getElementById("habit-name-input").value = "";
+      document.getElementById("habit-modal").style.display = "flex";
+    }
+
+    function openEditHabitModal(id) {
+      const habit = habits.find(h => h.id === id);
+      if (!habit) return;
+
+      document.getElementById("modal-title").innerText = "Edit Kebiasaan";
+      document.getElementById("edit-habit-id").value = habit.id;
+      document.getElementById("habit-name-input").value = habit.name;
+      document.getElementById("selected-icon").value = habit.icon || "fa-circle-check";
+
+      document.querySelectorAll(".icon-option").forEach(b => {
+        const iconElement = b.querySelector("i");
+        if (iconElement && iconElement.className.includes(habit.icon)) {
+          b.click();
+        }
+      });
+
+      document.getElementById("habit-modal").style.display = "flex";
+    }
+
+    function closeHabitModal() {
+      document.getElementById("habit-modal").style.display = "none";
+    }
+
+    function saveHabit() {
+      const id = document.getElementById("edit-habit-id").value;
+      const name = document.getElementById("habit-name-input").value.trim();
+      const icon = document.getElementById("selected-icon").value;
+
+      if (!name) {
+        showToast("Nama kebiasaan tidak boleh kosong!", "error");
+        return;
+      }
+
+      if (id) {
+        const habit = habits.find(h => h.id === id);
+        if (habit) {
+          habit.name = name;
+          habit.icon = icon;
+        }
+        showToast("Kebiasaan berhasil diperbarui!");
+      } else {
+        habits.push({
+          id: Date.now().toString(),
+          name,
+          icon
+        });
+        showToast("Kebiasaan baru ditambahkan!");
+      }
+
+      saveData();
+      renderHabits();
+      closeHabitModal();
+    }
+
+    function deleteHabit(id) {
+      if (!confirm("Apakah Anda yakin ingin menghapus kebiasaan ini?")) return;
+
+      habits = habits.filter(h => h.id !== id);
+      saveData();
+      renderHabits();
+      showToast("Kebiasaan dihapus.");
+    }
+
+    function showToast(message, type = "success") {
+      const toast = document.getElementById("toast-notification");
+      const toastMsg = document.getElementById("toast-message");
+      const toastIcon = document.getElementById("toast-icon");
+
+      toastMsg.innerText = message;
+
+      if (type === "error") {
+        toastIcon.className = "fa-solid fa-circle-exclamation text-rose-400";
+      } else {
+        toastIcon.className = "fa-solid fa-circle-check text-emerald-400";
+      }
+
+      toast.style.transform = "translateY(0)";
+      toast.style.opacity = "1";
+
+      setTimeout(() => {
+        toast.style.transform = "translateY(5rem)";
+        toast.style.opacity = "0";
+      }, 2500);
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+  </script>
+</body>
+</html>
